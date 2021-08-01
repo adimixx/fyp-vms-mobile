@@ -5,7 +5,9 @@ class UserState {
   final passwordController = TextEditingController();
   String? email;
   String? password;
+  User? user;
 
   UserState();
   UserState.withCredentials({this.email, this.password});
+  UserState.fromModel({this.user});
 }

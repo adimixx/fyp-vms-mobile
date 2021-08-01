@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vms/bootstrap/form/password_field.dart';
-import 'package:vms/cubit/user_cubit.dart';
+import 'package:vms/view/widget/form/password_field.dart';
+import 'package:vms/logic/cubit/user_cubit.dart';
 
 class LoginView extends StatelessWidget {
   @override
