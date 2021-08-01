@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:testflut/auth/login_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vms/auth/login_view.dart';
+import 'package:vms/cubit/user_cubit.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: LoginView(),
+    home: MyApp(),
   ));
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<UserCubit>(
+      create: (context) => UserCubit(),
+      child: LoginView(),
+    );
+  }
 }

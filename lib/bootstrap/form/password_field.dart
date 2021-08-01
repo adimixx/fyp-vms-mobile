@@ -9,8 +9,10 @@ class PasswordField extends StatefulWidget {
       this.onSaved,
       this.validator,
       this.onFieldSubmitted,
-      this.maxLength});
+      this.maxLength,
+      this.controller});
 
+  final TextEditingController? controller;
   final Key? fieldKey;
   final String? hintText;
   final String? labelText;
@@ -30,6 +32,7 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       key: widget.fieldKey,
       obscureText: _obscureText,
       maxLength: widget.maxLength ?? null,

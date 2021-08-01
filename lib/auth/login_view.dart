@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testflut/bootstrap/form/password_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vms/bootstrap/form/password_field.dart';
+import 'package:vms/cubit/user_cubit.dart';
 
 class LoginView extends StatelessWidget {
   @override
@@ -33,6 +35,8 @@ class LoginView extends StatelessWidget {
             ),
             Container(
               child: TextFormField(
+                controller:
+                    BlocProvider.of<UserCubit>(context).state.emailController,
                 decoration: InputDecoration(
                     filled: true,
                     border: UnderlineInputBorder(),
@@ -42,12 +46,25 @@ class LoginView extends StatelessWidget {
             ),
             Container(
                 child: PasswordField(
+              controller:
+                  BlocProvider.of<UserCubit>(context).state.passwordController,
               labelText: 'Password',
             )),
-            Container(
-              child: ElevatedButton(
-                child: Text('Login'),
-                onPressed: null,
+            BlocListener<UserCubit, UserState>(
+              listener: (context, state) {
+                print(state.email);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        'Email : ${state.email} , Password: ${state.password}'),
+                    duration: Duration(seconds: 10)));
+              },
+              child: Container(
+                child: ElevatedButton(
+                  child: Text('Login'),
+                  onPressed: () {
+                    BlocProvider.of<UserCubit>(context).onLoginClicked();
+                  },
+                ),
               ),
             )
           ],
