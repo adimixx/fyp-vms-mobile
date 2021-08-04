@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vms/view/widget/form/password_field.dart';
-import 'package:vms/logic/cubit/user_cubit.dart';
+import 'package:vms/logic/authentication/bloc/authentication_bloc.dart';
+import 'package:vms/logic/authentication/repository/authentication_repository.dart';
+import 'package:vms/view/screen/authentication/login/cubit/login_screen_cubit.dart';
+import 'package:vms/view/screen/widget/form/password_field.dart';
 
-class LoginView extends StatelessWidget {
+class LoginScreenUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +37,9 @@ class LoginView extends StatelessWidget {
             ),
             Container(
               child: TextFormField(
-                controller:
-                    BlocProvider.of<UserCubit>(context).state.emailController,
+                controller: BlocProvider.of<LoginScreenCubit>(context)
+                    .state
+                    .emailController,
                 decoration: InputDecoration(
                     filled: true,
                     border: UnderlineInputBorder(),
@@ -46,23 +49,28 @@ class LoginView extends StatelessWidget {
             ),
             Container(
                 child: PasswordField(
-              controller:
-                  BlocProvider.of<UserCubit>(context).state.passwordController,
+              controller: BlocProvider.of<LoginScreenCubit>(context)
+                  .state
+                  .passwordController,
               labelText: 'Password',
             )),
-            BlocListener<UserCubit, UserState>(
-              listener: (context, state) {
-                print(state.email);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        'Email : ${state.email} , Password: ${state.password}'),
-                    duration: Duration(seconds: 10)));
-              },
+            MultiBlocListener(
+              listeners: [
+                BlocListener<LoginScreenCubit, LoginScreenState>(
+                    listener: (context, state) {}),
+                BlocListener<AuthenticationBloc, AuthenticationState>(
+                    listener: (context, state) {
+                  if (state.authenticationStatus ==
+                      AuthenticationStatus.authenticated) {
+                    print('User Authenticated!');
+                  }
+                }),
+              ],
               child: Container(
                 child: ElevatedButton(
                   child: Text('Login'),
                   onPressed: () {
-                    BlocProvider.of<UserCubit>(context).onLoginClicked();
+                    BlocProvider.of<LoginScreenCubit>(context).onLogin();
                   },
                 ),
               ),
@@ -70,6 +78,18 @@ class LoginView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class LoginScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<LoginScreenCubit>(
+      create: (context) => LoginScreenCubit(
+          authenticationRepository: BlocProvider.of<AuthenticationBloc>(context)
+              .authenticationRepository),
+      child: LoginScreenUI(),
     );
   }
 }

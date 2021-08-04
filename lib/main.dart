@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vms/view/screen/auth/login_view.dart';
-import 'package:vms/logic/cubit/user_cubit.dart';
+import 'package:vms/app.dart';
+
+import 'logic/authentication/repository/authentication_repository.dart';
+import 'logic/authentication/repository/user_repository.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: MyApp(),
-  ));
+  runApp(
+    App(
+      authenticationRepository: AuthenticationRepository(),
+      userRepository: UserRepository(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<UserCubit>(
-      create: (context) => UserCubit(),
-      child: LoginView(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   final AppRouter _appRouter = AppRouter();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider<UserCubit>(
+//       create: (_) => UserCubit(),
+//       child: MaterialApp(
+//         onGenerateRoute: _appRouter.onGenerateRoute,
+//       ),
+//     );
+//   }
+// }

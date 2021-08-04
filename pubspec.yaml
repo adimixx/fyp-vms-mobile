@@ -29,7 +29,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_bloc: ^7.0.0
   http: ^0.13.3
-  
+  device_info_plus: ^2.1.0
+  shared_preferences: ^2.0.6
+  equatable: ^2.0.3
+
+  network_repository:
+    path: packages/network_repository
+    
 dev_dependencies:
   flutter_test:
     sdk: flutter
