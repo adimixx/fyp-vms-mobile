@@ -26,8 +26,7 @@ class AuthenticationBloc
 
   @override
   Stream<AuthenticationState> mapEventToState(
-    AuthenticationEvent event,
-  ) async* {
+      AuthenticationEvent event) async* {
     if (event is AuthenticationStatusChanged) {
       yield await _mapAuthenticationStatusChangedToState(event);
     } else if (event is AuthenticationLogoutRequested) {
@@ -62,6 +61,7 @@ class AuthenticationBloc
       final user = await userRepository.getUser();
       return user;
     } on Exception {
+      authenticationRepository.logout();
       return null;
     }
   }

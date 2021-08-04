@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:network_repository/network_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vms/models/user.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -13,7 +10,14 @@ class AuthenticationRepository {
   final _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
-    yield AuthenticationStatus.unauthenticated;
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+
+    if (localStorage.getString('token') != null) {
+      yield AuthenticationStatus.authenticated;
+    } else {
+      yield AuthenticationStatus.unauthenticated;
+    }
+
     yield* _controller.stream;
   }
 
