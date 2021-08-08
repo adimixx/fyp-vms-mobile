@@ -69,13 +69,15 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    child: Text(
-                      'Hi, ${BlocProvider.of<AuthenticationBloc>(context).state.user?.name ?? 'User'}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                  BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                    builder: (context, state) => Container(
+                      child: Text(
+                        'Hi, ${state.user?.name ?? 'User'}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                   Container(

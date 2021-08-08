@@ -50,12 +50,10 @@ class _AppViewState extends State<AppView> {
           listener: (context, state) {
             if (state.authenticationStatus ==
                 AuthenticationStatus.authenticated) {
-              _navigator.pushNamedAndRemoveUntil('/', (route) => false);
+              _navigator.pushNamedAndRemoveUntil('/home', (route) => false);
             } else if (state.authenticationStatus ==
                 AuthenticationStatus.unauthenticated) {
               _navigator.pushNamedAndRemoveUntil('/login', (route) => false);
-            } else {
-              _navigator.pushNamedAndRemoveUntil('/splash', (route) => false);
             }
           },
           child: child,

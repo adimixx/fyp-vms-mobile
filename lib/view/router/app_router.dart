@@ -6,9 +6,7 @@ import 'package:vms/view/screen/splash/splash_screen.dart';
 class AppRouter {
   Route onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case '/splash':
-        return MaterialPageRoute(builder: (_) => SplashScreen());
-      case '/':
+      case '/home':
         return MaterialPageRoute(builder: (_) => HomeScreen());
       case '/login':
         return MaterialPageRoute(builder: (_) => LoginScreen());

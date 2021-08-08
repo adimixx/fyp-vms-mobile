@@ -16,6 +16,8 @@ class AuthenticationRepository {
       yield AuthenticationStatus.unauthenticated;
     }
 
+    yield AuthenticationStatus.authenticated;
+
     yield* _controller.stream;
   }
 
