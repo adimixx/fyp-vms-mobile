@@ -54,8 +54,8 @@ class _AppViewState extends State<AppView> {
             } else if (state.authenticationStatus ==
                 AuthenticationStatus.unauthenticated) {
               _navigator.pushNamedAndRemoveUntil('/login', (route) => false);
-
-              // _navigator.pushNamedAndRemoveUntil('/login', (route) => false);
+            } else {
+              _navigator.pushNamedAndRemoveUntil('/splash', (route) => false);
             }
           },
           child: child,

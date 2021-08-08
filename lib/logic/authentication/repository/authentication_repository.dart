@@ -12,9 +12,7 @@ class AuthenticationRepository {
   Stream<AuthenticationStatus> get status async* {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
 
-    if (localStorage.getString('token') != null) {
-      yield AuthenticationStatus.authenticated;
-    } else {
+    if (localStorage.getString('token') == null) {
       yield AuthenticationStatus.unauthenticated;
     }
 
