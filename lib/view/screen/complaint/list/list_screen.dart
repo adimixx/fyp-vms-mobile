@@ -1,8 +1,10 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vms/logic/complaint/repository/complaint_repository.dart';
 import 'package:vms/models/complaint.dart';
 import 'package:vms/view/screen/complaint/list/bloc/list_bloc.dart';
+import 'package:vms/view/screen/complaint/show/complaint_show_screen.dart';
 
 class ListScreenUI extends StatefulWidget {
   const ListScreenUI({Key? key}) : super(key: key);
@@ -12,21 +14,44 @@ class ListScreenUI extends StatefulWidget {
 }
 
 class _ListScreenUIState extends State<ListScreenUI> {
-  Widget complaintListView({List<Complaint>? e}) {
+  Widget complaintListView(
+      {required BuildContext context, List<Complaint>? e}) {
     return Scrollbar(
       child: SizedBox(
         height: 450.0,
         child: ListView.separated(
             scrollDirection: Axis.vertical,
             // shrinkWrap: true,
-            itemBuilder: (context, i) => ListTile(
-                  title: Text(
-                    '${e?[i].name}',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text('${e?[i].vehicleInventory?.regWithName}'),
+            itemBuilder: (context, i) {
+              var _complaint = e![i];
+              return ListTile(
+                title: Text(
+                  '${_complaint.name}',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('${_complaint.vehicleInventory?.regWithName}'),
+                    Badge(
+                      shape: BadgeShape.square,
+                      toAnimate: false,
+                      badgeColor: _complaint.status!.bgColor,
+                      badgeContent: Text(
+                        '${_complaint.status!.name.toUpperCase()}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+                onTap: () => Navigator.of(context).pushNamed('/complaint/show',
+                    arguments: ComplaintShowScreenArgs(complaint: _complaint)),
+              );
+            },
             separatorBuilder: (_ctx, _i) => const Divider(
                   color: Colors.black,
                 ),
@@ -51,8 +76,8 @@ class _ListScreenUIState extends State<ListScreenUI> {
             ),
           ),
           BlocConsumer<ListBloc, ListState>(
-            builder: (context, state) =>
-                complaintListView(e: state.complaintList),
+            builder: (_ctx, state) =>
+                complaintListView(context: context, e: state.complaintList),
             listener: (context, state) {
               switch (state.isLoading) {
                 case true:
@@ -66,21 +91,6 @@ class _ListScreenUIState extends State<ListScreenUI> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ListScreen extends StatelessWidget {
-  ListScreen({Key? key}) : super(key: key);
-
-  ComplaintRepository _complaintRepository = ComplaintRepository();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<ListBloc>(
-      create: (_) => ListBloc(complaintRepository: _complaintRepository)
-        ..add(GetListEvent()),
-      child: ListScreenUI(),
     );
   }
 }

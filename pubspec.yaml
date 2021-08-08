@@ -35,6 +35,7 @@ dependencies:
 
   network_repository:
     path: packages/network_repository
+  badges: ^2.0.1
     
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ class Complaint extends Equatable {
     return Complaint(
       id: json['id'],
       name: json['name'],
-      detail: json['email'],
+      detail: json['detail'],
       status: Status.fromJson(json['status']),
       vehicleInventory: VehicleInventory.fromJson(json['vehicle_inventory']),
     );
