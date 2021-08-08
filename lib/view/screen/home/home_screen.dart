@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vms/logic/authentication/bloc/authentication_bloc.dart';
+import 'package:vms/logic/complaint/repository/complaint_repository.dart';
+import 'package:vms/view/screen/complaint/list/bloc/list_bloc.dart';
 import 'package:vms/view/screen/complaint/list/list_screen.dart';
-import 'package:vms/view/screen/complaint/list_pending/list_pending_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class _HomeScreenUI extends StatelessWidget {
+  const _HomeScreenUI({Key? key}) : super(key: key);
 
   Widget sumarryStats({required String title, required String value}) {
     return Container(
@@ -37,17 +38,17 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const bottomNavigationBarItems = <BottomNavigationBarItem>[
+      BottomNavigationBarItem(icon: const Icon(Icons.list), label: 'List'),
+      BottomNavigationBarItem(icon: const Icon(Icons.qr_code), label: 'Scan')
+    ];
+
     var screenSize = MediaQuery.of(context).size;
     Color primaryColor = Color.fromARGB(255, 12, 25, 70);
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: primaryColor,
         statusBarIconBrightness: Brightness.light));
-
-    const bottomNavigationBarItems = <BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: const Icon(Icons.list), label: 'List'),
-      BottomNavigationBarItem(icon: const Icon(Icons.qr_code), label: 'Scan')
-    ];
 
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
@@ -80,27 +81,47 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        sumarryStats(title: 'Pending Complaints', value: '10'),
-                        sumarryStats(
-                            title: 'Processed Complaints', value: '20'),
-                      ],
+                  BlocBuilder<ListBloc, ListState>(
+                    builder: (context, state) => Container(
+                      margin: EdgeInsets.only(top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          sumarryStats(
+                              title: 'Pending Complaints',
+                              value: '${state.complaintStats.pending}'),
+                          sumarryStats(
+                              title: 'Processed Complaints',
+                              value: '${state.complaintStats.processed}'),
+                        ],
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-              child: ListScreen(),
+              child: ListScreenUI(),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ComplaintRepository _complaintRepository = ComplaintRepository();
+
+    return BlocProvider<ListBloc>(
+      create: (_) => ListBloc(complaintRepository: _complaintRepository)
+        ..add(GetListEvent()),
+      child: _HomeScreenUI(),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:network_repository/network_repository.dart';
 import 'package:vms/models/complaint.dart';
+import 'package:vms/models/complaint_stats.dart';
 import 'package:vms/models/user.dart';
 
 class ComplaintRepository {
@@ -19,6 +20,18 @@ class ComplaintRepository {
         _bodyDecode.map((e) => Complaint.fromJson(e)).toList();
 
     return _complaintList;
+  }
+
+  Future<ComplaintStats> getComplaintStats() async {
+    final res = await NetworkRepository().getData(apiUrl: '/complaint/stats');
+
+    if (res.statusCode < 200 || res.statusCode > 300) {
+      throw Exception('Server Error');
+    }
+
+    final _complaintStats = ComplaintStats.fromJson(jsonDecode(res.body));
+
+    return _complaintStats;
   }
 
   Future<List<Complaint>> getComplaint({required int id}) async {

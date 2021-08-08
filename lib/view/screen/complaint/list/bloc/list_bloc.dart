@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:vms/logic/complaint/repository/complaint_repository.dart';
 import 'package:vms/models/complaint.dart';
+import 'package:vms/models/complaint_stats.dart';
 part 'list_event.dart';
 part 'list_state.dart';
 
@@ -26,26 +27,17 @@ class ListBloc extends Bloc<ListEvent, ListState> {
   }
 
   Future<ListState> _mapGetListEventToState() async {
-    // try {
-    final List<Complaint> _complaintList =
-        await complaintRepository.getComplaintList();
+    try {
+      final ComplaintStats _complaintStats =
+          await complaintRepository.getComplaintStats();
 
-    final List<Widget> _complaintListTile = _complaintList
-        .map(
-          (e) => ListTile(
-            title: Text(
-              '${e.name}',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            subtitle: Text('${e.vehicleInventory?.regWithName}'),
-          ),
-        )
-        .toList();
+      final List<Complaint> _complaintList =
+          await complaintRepository.getComplaintList();
 
-    return ListState.listLoaded(_complaintList, _complaintListTile);
-    // } catch (e) {
-    //   return ListState.exception(message: e.toString());
-    // }
+      return ListState.listLoaded(_complaintList, _complaintStats);
+    } catch (e) {
+      print(e.toString());
+      return ListState.exception(message: e.toString());
+    }
   }
 }
