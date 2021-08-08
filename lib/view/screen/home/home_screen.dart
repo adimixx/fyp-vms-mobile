@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vms/logic/authentication/bloc/authentication_bloc.dart';
+import 'package:vms/view/screen/complaint/list/list_screen.dart';
 import 'package:vms/view/screen/complaint/list_pending/list_pending_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -93,7 +94,7 @@ class HomeScreen extends StatelessWidget {
             ),
             Container(
               margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-              child: ListPendingScreen(),
+              child: ListScreen(),
             )
           ],
         ),
