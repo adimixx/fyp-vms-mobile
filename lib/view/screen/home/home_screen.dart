@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,35 +6,21 @@ import 'package:vms/logic/authentication/bloc/authentication_bloc.dart';
 import 'package:vms/logic/complaint/repository/complaint_repository.dart';
 import 'package:vms/view/screen/complaint/list/bloc/list_bloc.dart';
 import 'package:vms/view/screen/complaint/list/list_screen.dart';
+import 'package:vms/view/screen/home/cubit/home_cubit.dart';
+import 'package:vms/view/screen/home/dashboard_widget.dart';
+import 'package:vms/view/screen/home/scan_car_widget.dart';
 
-class _HomeScreenUI extends StatelessWidget {
+class _HomeScreenUI extends StatefulWidget {
   const _HomeScreenUI({Key? key}) : super(key: key);
 
-  Widget sumarryStats({required String title, required String value}) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            child: Text(
-              '$title',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-          Container(
-            child: Text(
-              '$value',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
+  @override
+  __HomeScreenUIState createState() => __HomeScreenUIState();
+}
+
+class __HomeScreenUIState extends State<_HomeScreenUI> {
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -50,61 +37,31 @@ class _HomeScreenUI extends StatelessWidget {
         statusBarColor: primaryColor,
         statusBarIconBrightness: Brightness.light));
 
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: bottomNavigationBarItems,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Colors.white.withOpacity(0.5),
-        selectedItemColor: Colors.white,
-        backgroundColor: primaryColor,
-        currentIndex: 0,
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              color: primaryColor,
-              // height: (screenSize.height / 3),
-              padding: EdgeInsets.fromLTRB(10, 20, 10, 30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                    builder: (context, state) => Container(
-                      child: Text(
-                        'Hi, ${state.user?.name ?? 'User'}',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  BlocBuilder<ListBloc, ListState>(
-                    builder: (context, state) => Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          sumarryStats(
-                              title: 'Pending Complaints',
-                              value: '${state.complaintStats.pending}'),
-                          sumarryStats(
-                              title: 'Processed Complaints',
-                              value: '${state.complaintStats.processed}'),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-              child: ListScreenUI(),
-            )
-          ],
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) => Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          items: bottomNavigationBarItems,
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor: Colors.white.withOpacity(0.5),
+          selectedItemColor: Colors.white,
+          backgroundColor: primaryColor,
+          currentIndex: state.currentScreenIndex,
+          onTap: (_index) => BlocProvider.of<HomeCubit>(context)
+              .onBottomNavigationBarTap(index: _index),
+        ),
+        body: SafeArea(
+          child: PageTransitionSwitcher(
+            transitionBuilder: (child, animation, secondaryAnimation) {
+              return FadeThroughTransition(
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                child: child,
+              );
+            },
+            child: (state.currentScreenIndex == 0)
+                ? DashboardWidget()
+                : ScanCarWidget(),
+          ),
         ),
       ),
     );
@@ -118,9 +75,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ComplaintRepository _complaintRepository = ComplaintRepository();
 
-    return BlocProvider<ListBloc>(
-      create: (_) => ListBloc(complaintRepository: _complaintRepository)
-        ..add(GetListEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ListBloc>(
+          create: (_) => ListBloc(complaintRepository: _complaintRepository)
+            ..add(GetListEvent()),
+        ),
+        BlocProvider<HomeCubit>(
+          create: (_) => HomeCubit(),
+        )
+      ],
       child: _HomeScreenUI(),
     );
   }
