@@ -13,8 +13,8 @@ class ScanCarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Color primaryColor = Color.fromARGB(255, 12, 25, 70);
 
-    Function(String) _callback = (String _callback) async {
-      await Navigator.of(context).pushNamed('/complaint/create',
+    Function(String) _callback = (String _callback) {
+      Navigator.of(context).pushNamed('/complaint/create',
           arguments: ComplaintCreateScreenArgs(qrUrl: _callback));
       BlocProvider.of<HomeCubit>(context).onBottomNavigationBarTap(index: 0);
     };
