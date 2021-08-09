@@ -12,7 +12,10 @@ class QrCodeScannerState extends Equatable {
       : this._(qrViewController: qrViewController);
   const QrCodeScannerState.recognized(
       {required QRViewController qrViewController, required Barcode result})
-      : this._(qrViewController: qrViewController, result: result);
+      : this._(
+          qrViewController: qrViewController,
+          result: result,
+        );
 
   @override
   List<Object?> get props => [qrViewController, result];

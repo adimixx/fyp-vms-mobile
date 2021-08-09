@@ -17,7 +17,7 @@ class VehicleCatalog extends Equatable {
   final String? variant;
   final String? year;
   final String? name;
-  final VehicleCategory vehicleCategory;
+  final VehicleCategory? vehicleCategory;
 
   @override
   List<Object> get props => [id];
@@ -30,7 +30,9 @@ class VehicleCatalog extends Equatable {
       variant: json['variant'],
       year: json['year'],
       name: json['name'],
-      vehicleCategory: VehicleCategory.fromJson(json['vehicle_category']),
+      vehicleCategory: (json['vehicle_category'] != null)
+          ? VehicleCategory.fromJson(json['vehicle_category'])
+          : null,
     );
   }
 }

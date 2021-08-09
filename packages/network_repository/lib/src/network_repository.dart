@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkRepository {
-  final String _url = 'http://10.0.2.2:8001/api';
+  final String _url = 'http://192.168.1.2:8001/api';
   //if you are using android studio emulator, change localhost to 10.0.2.2
   var token;
 
