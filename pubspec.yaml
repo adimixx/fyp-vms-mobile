@@ -37,6 +37,7 @@ dependencies:
     path: packages/network_repository
   badges: ^2.0.1
   animations: ^2.0.1
+  qr_code_scanner: ^0.5.2
     
 dev_dependencies:
   flutter_test:
