@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vms/view/screen/widget/form/bs_text_field.dart';
 
 class PasswordField extends StatefulWidget {
   const PasswordField(
@@ -31,29 +32,24 @@ class _PasswordFieldState extends State<PasswordField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: widget.controller,
-      key: widget.fieldKey,
-      obscureText: _obscureText,
-      maxLength: widget.maxLength ?? null,
-      onSaved: widget.onSaved,
-      validator: widget.validator,
-      onFieldSubmitted: widget.onFieldSubmitted,
-      decoration: InputDecoration(
-        border: const UnderlineInputBorder(),
-        filled: true,
-        hintText: widget.hintText,
-        labelText: widget.labelText,
-        helperText: widget.helperText,
-        suffixIcon: GestureDetector(
-          onTap: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-          child: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-        ),
-      ),
-    );
+    // BsTextField(borderRadius: 30, controller: widget.controller,  ,)
+
+    // return TextFormField(
+    //   controller: widget.controller,
+    //   key: widget.fieldKey,
+    //   obscureText: _obscureText,
+    //   maxLength: widget.maxLength ?? null,
+    //   onSaved: widget.onSaved,
+    //   validator: widget.validator,
+    //   onFieldSubmitted: widget.onFieldSubmitted,
+    //   decoration: InputDecoration(
+    //     border: const UnderlineInputBorder(),
+    //     filled: true,
+
+    //     ),
+    //   ),
+    // );
+
+    return Scaffold();
   }
 }

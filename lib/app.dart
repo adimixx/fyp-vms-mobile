@@ -42,9 +42,31 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
+    Color _secondary = Color.fromARGB(255, 108, 117, 125),
+        _primary = Color.fromARGB(255, 18, 40, 115),
+        _black = Colors.black,
+        _primaryDark = Color.fromARGB(255, 8, 18, 50),
+        _primaryLight = Color.fromARGB(255, 18, 40, 115);
+
     return MaterialApp(
       onGenerateRoute: _appRouter.onGenerateRoute,
       navigatorKey: _navigatorKey,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: _primary,
+        secondaryHeaderColor: _secondary,
+        primaryColorDark: _primaryDark,
+        primaryColorLight: _primaryLight,
+        fontFamily: 'Nunito',
+        textTheme: TextTheme(
+          headline1: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.w700, color: _black),
+          subtitle1: TextStyle(
+              fontWeight: FontWeight.w400, color: _secondary, fontSize: 15),
+          bodyText1: TextStyle(
+              fontWeight: FontWeight.w400, color: _black, fontSize: 20),
+        ),
+      ),
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
