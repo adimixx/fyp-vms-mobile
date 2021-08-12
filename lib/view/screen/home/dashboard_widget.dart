@@ -22,31 +22,33 @@ class DashboardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Stack(
-                children: [
-                  BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                    builder: (context, state) => Center(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text(
-                          'Hi, ${state.user?.name ?? 'User'}',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
+              SafeArea(
+                child: Stack(
+                  children: [
+                    BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                      builder: (context, state) => Center(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Text(
+                            'Hi, ${state.user?.name ?? 'User'}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    iconSize: 24,
-                    color: Colors.white,
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                    icon: Icon(
-                      Icons.menu,
+                    IconButton(
+                      iconSize: 24,
+                      color: Colors.white,
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                      icon: Icon(
+                        Icons.menu,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               BlocBuilder<ListBloc, ListState>(
                 builder: (context, state) => Container(

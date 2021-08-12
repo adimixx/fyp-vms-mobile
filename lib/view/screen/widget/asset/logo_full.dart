@@ -8,6 +8,8 @@ class LogoFull extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 30),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             child: Image.asset(

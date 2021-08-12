@@ -7,7 +7,7 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
-  void onBottomNavigationBarTap({required int index}) {
+  void onChangeHomeSceenPage({required int index}) {
     emit(HomeScreenIndexChanged(currentScreenIndex: index));
   }
 }

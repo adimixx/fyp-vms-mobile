@@ -8,7 +8,8 @@ import 'package:vms/view/screen/complaint/list/bloc/list_bloc.dart';
 import 'package:vms/view/screen/complaint/list/list_screen.dart';
 import 'package:vms/view/screen/home/cubit/home_cubit.dart';
 import 'package:vms/view/screen/home/dashboard_widget.dart';
-import 'package:vms/view/screen/home/scan_car_widget.dart';
+import 'package:vms/view/screen/home/home_screen_display.dart';
+import 'package:vms/view/screen/scan_qr/scan_qr_display.dart';
 import 'package:vms/view/screen/widget/asset/drawer_default.dart';
 
 class _HomeScreenUI extends StatefulWidget {
@@ -26,43 +27,19 @@ class __HomeScreenUIState extends State<_HomeScreenUI> {
 
   @override
   Widget build(BuildContext context) {
-    const bottomNavigationBarItems = <BottomNavigationBarItem>[
-      BottomNavigationBarItem(icon: const Icon(Icons.list), label: 'List'),
-      BottomNavigationBarItem(icon: const Icon(Icons.qr_code), label: 'Scan')
-    ];
-
     var screenSize = MediaQuery.of(context).size;
-    Color primaryColor = Color.fromARGB(255, 12, 25, 70);
-
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: primaryColor,
-        statusBarIconBrightness: Brightness.light));
 
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) => Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          items: bottomNavigationBarItems,
-          type: BottomNavigationBarType.fixed,
-          unselectedItemColor: Colors.white.withOpacity(0.5),
-          selectedItemColor: Colors.white,
-          backgroundColor: primaryColor,
-          currentIndex: state.currentScreenIndex,
-          onTap: (_index) => BlocProvider.of<HomeCubit>(context)
-              .onBottomNavigationBarTap(index: _index),
-        ),
-        body: SafeArea(
-          child: PageTransitionSwitcher(
-            transitionBuilder: (child, animation, secondaryAnimation) {
-              return FadeThroughTransition(
-                animation: animation,
-                secondaryAnimation: secondaryAnimation,
-                child: child,
-              );
-            },
-            child: (state.currentScreenIndex == 0)
-                ? DashboardWidget()
-                : ScanCarWidget(),
-          ),
+        body: PageTransitionSwitcher(
+          transitionBuilder: (child, animation, secondaryAnimation) {
+            return FadeThroughTransition(
+              animation: animation,
+              secondaryAnimation: secondaryAnimation,
+              child: child,
+            );
+          },
+          child: HomeScreenDisplay(),
         ),
         drawer: Drawer(
           child: DrawerDefault(),

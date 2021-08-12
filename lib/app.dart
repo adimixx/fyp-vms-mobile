@@ -63,6 +63,8 @@ class _AppViewState extends State<AppView> {
               fontSize: 22, fontWeight: FontWeight.w700, color: _black),
           subtitle1: TextStyle(
               fontWeight: FontWeight.w400, color: _secondary, fontSize: 15),
+          subtitle2: TextStyle(
+              fontWeight: FontWeight.w400, color: _secondary, fontSize: 14),
           bodyText1: TextStyle(
               fontWeight: FontWeight.w400, color: _black, fontSize: 20),
         ),
