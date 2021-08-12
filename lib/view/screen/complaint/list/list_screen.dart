@@ -30,26 +30,32 @@ class _ListScreenUIState extends State<ListScreenUI> {
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
-                subtitle: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('${_complaint.vehicleInventory?.regWithName}'),
-                    Badge(
-                      shape: BadgeShape.square,
-                      toAnimate: false,
-                      badgeColor: _complaint.status!.bgColor,
-                      badgeContent: Text(
-                        '${_complaint.status!.name.toUpperCase()}',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12),
+                subtitle: SafeArea(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${_complaint.vehicleInventory?.regWithName}'),
+                      Badge(
+                        shape: BadgeShape.square,
+                        toAnimate: false,
+                        badgeColor: _complaint.status!.bgColor,
+                        badgeContent: Text(
+                          '${_complaint.status!.name.toUpperCase()}',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12),
+                          textAlign: TextAlign.start,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                onTap: () => Navigator.of(context).pushNamed('/complaint/show',
-                    arguments: ComplaintShowScreenArgs(complaint: _complaint)),
+                onTap: () => Navigator.of(context).pushNamed(
+                  '/complaint/show',
+                  arguments: ComplaintShowScreenArgs(complaint: _complaint),
+                ),
               );
             },
             separatorBuilder: (_ctx, _i) => const Divider(

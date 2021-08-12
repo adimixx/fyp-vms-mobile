@@ -9,6 +9,7 @@ import 'package:vms/view/screen/complaint/list/list_screen.dart';
 import 'package:vms/view/screen/home/cubit/home_cubit.dart';
 import 'package:vms/view/screen/home/dashboard_widget.dart';
 import 'package:vms/view/screen/home/scan_car_widget.dart';
+import 'package:vms/view/screen/widget/asset/drawer_default.dart';
 
 class _HomeScreenUI extends StatefulWidget {
   const _HomeScreenUI({Key? key}) : super(key: key);
@@ -62,6 +63,9 @@ class __HomeScreenUIState extends State<_HomeScreenUI> {
                 ? DashboardWidget()
                 : ScanCarWidget(),
           ),
+        ),
+        drawer: Drawer(
+          child: DrawerDefault(),
         ),
       ),
     );

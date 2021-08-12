@@ -20,18 +20,33 @@ class DashboardWidget extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(10, 20, 10, 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                builder: (context, state) => Container(
-                  child: Text(
-                    'Hi, ${state.user?.name ?? 'User'}',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+              Stack(
+                children: [
+                  BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                    builder: (context, state) => Center(
+                      child: Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Text(
+                          'Hi, ${state.user?.name ?? 'User'}',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  IconButton(
+                    iconSize: 24,
+                    color: Colors.white,
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                    icon: Icon(
+                      Icons.menu,
+                    ),
+                  ),
+                ],
               ),
               BlocBuilder<ListBloc, ListState>(
                 builder: (context, state) => Container(
