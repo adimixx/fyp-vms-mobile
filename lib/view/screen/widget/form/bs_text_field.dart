@@ -12,7 +12,8 @@ class BsTextField extends StatefulWidget {
       this.onFieldSubmitted,
       this.maxLength,
       this.controller,
-      this.hasTextObscure = false});
+      this.hasTextObscure = false,
+      this.enabled = true});
 
   final double borderRadius;
   final bool hasTextObscure;
@@ -26,6 +27,7 @@ class BsTextField extends StatefulWidget {
   final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
+  final bool? enabled;
 
   @override
   _BsTextFieldState createState() => _BsTextFieldState();
@@ -37,6 +39,7 @@ class _BsTextFieldState extends State<BsTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enabled,
       controller: widget.controller,
       key: widget.fieldKey,
       obscureText: (widget.hasTextObscure) ? _obscureText : false,

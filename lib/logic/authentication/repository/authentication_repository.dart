@@ -39,6 +39,11 @@ class AuthenticationRepository {
           'password': password,
           'device_name': deviceInfo
         });
+    if (rawToken.statusCode < 200 || rawToken.statusCode > 300) {
+      return Future.error(
+          "ValidationError", StackTrace.fromString(rawToken.body));
+    }
+    // Status 422
 
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     localStorage.setString('token', rawToken.body);

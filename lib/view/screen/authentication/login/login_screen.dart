@@ -3,11 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vms/logic/authentication/bloc/authentication_bloc.dart';
-import 'package:vms/logic/authentication/repository/authentication_repository.dart';
 import 'package:vms/view/screen/authentication/login/cubit/login_screen_cubit.dart';
 import 'package:vms/view/screen/widget/asset/logo_full.dart';
 import 'package:vms/view/screen/widget/form/bs_text_field.dart';
-import 'package:vms/view/screen/widget/form/password_field.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginScreenUI extends StatelessWidget {
   @override
@@ -33,7 +32,7 @@ class LoginScreenUI extends StatelessWidget {
                   padding: EdgeInsets.all(30),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
@@ -49,77 +48,110 @@ class LoginScreenUI extends StatelessWidget {
                       ),
                       Container(
                         child: BlocConsumer<LoginScreenCubit, LoginScreenState>(
-                          listener: (context, state) {},
-                          builder: (context, state) => Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Container(
-                                child: BsTextField(
-                                  borderRadius: 10,
-                                  controller: state.emailController,
-                                  labelText: "Email Address",
+                          listener: (context, state) {
+                            if (state.snackbarMessage != null &&
+                                state.snackbarMessage!.isNotEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(state.snackbarMessage!),
                                 ),
-                                margin: EdgeInsets.only(bottom: 20),
-                              ),
-                              Container(
-                                child: BsTextField(
-                                  borderRadius: 10,
-                                  controller: state.passwordController,
-                                  labelText: "Password",
-                                  hasTextObscure: true,
+                              );
+                            }
+                          },
+                          builder: (context, state) => Form(
+                            key: state.loginFormKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Container(
+                                  child: BsTextField(
+                                    enabled: !state.loginPending,
+                                    borderRadius: 10,
+                                    controller: state.emailController,
+                                    labelText: "Email Address",
+                                    validator:
+                                        BlocProvider.of<LoginScreenCubit>(
+                                                context)
+                                            .emailInputValidator,
+                                  ),
+                                  margin: EdgeInsets.only(bottom: 20),
                                 ),
-                                margin: EdgeInsets.only(bottom: 20),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 20),
-                                child: ElevatedButton(
-                                  child: Text('Login'),
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                Container(
+                                  child: BsTextField(
+                                    enabled: !state.loginPending,
+                                    borderRadius: 10,
+                                    controller: state.passwordController,
+                                    labelText: "Password",
+                                    hasTextObscure: true,
+                                    validator:
+                                        BlocProvider.of<LoginScreenCubit>(
+                                                context)
+                                            .passwordInputValidator,
+                                  ),
+                                  margin: EdgeInsets.only(bottom: 20),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: ElevatedButton(
+                                    child: (state.loginPending)
+                                        ? SpinKitRing(
+                                            color: Colors.white,
+                                            size: 20.0,
+                                            lineWidth: 3.0,
+                                          )
+                                        : Text('Login'),
+                                    style: ButtonStyle(
+                                      shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context).primaryColor),
+                                      padding: MaterialStateProperty.all(
+                                        EdgeInsets.symmetric(vertical: 14),
                                       ),
                                     ),
-                                    backgroundColor: MaterialStateProperty.all(
-                                        Theme.of(context).primaryColor),
-                                    padding: MaterialStateProperty.all(
-                                      EdgeInsets.symmetric(vertical: 14),
-                                    ),
+                                    onPressed: state.loginPending
+                                        ? null
+                                        : () {
+                                            BlocProvider.of<LoginScreenCubit>(
+                                                    context)
+                                                .onLogin();
+                                          },
                                   ),
-                                  onPressed: () {
-                                    BlocProvider.of<LoginScreenCubit>(context)
-                                        .onLogin();
-                                  },
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                child: Divider(
-                                  color: Theme.of(context).secondaryHeaderColor,
-                                  thickness: 0.7,
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  'Register New Account',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  'Forgot Password?',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              )
-                            ],
+                              ],
+                            ),
                           ),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(vertical: 10),
+                        child: Divider(
+                          color: Theme.of(context).secondaryHeaderColor,
+                          thickness: 0.7,
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          'Register New Account',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ),
+                      Container(
+                        child: Text(
+                          'Forgot Password?',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              decoration: TextDecoration.underline),
                         ),
                       )
                     ],
@@ -140,7 +172,10 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider<LoginScreenCubit>(
       create: (context) => LoginScreenCubit(
           authenticationRepository: BlocProvider.of<AuthenticationBloc>(context)
-              .authenticationRepository),
+              .authenticationRepository,
+          emailController: TextEditingController(),
+          passwordController: TextEditingController(),
+          loginFormKey: GlobalKey<FormState>()),
       child: LoginScreenUI(),
     );
   }

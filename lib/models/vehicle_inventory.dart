@@ -15,7 +15,7 @@ class VehicleInventory extends Equatable {
   final int? id;
   final String? regNo;
   final String? lastServiceDate;
-  final String? nextServiceMileage;
+  final double? nextServiceMileage;
   final String? nextServiceDate;
   final VehicleCatalog? vehicleCatalog;
 
