@@ -11,7 +11,8 @@ class ScanQRDisplay extends StatelessWidget {
     Color primaryColor = Color.fromARGB(255, 12, 25, 70);
 
     Function(String) _callback = (String _callback) {
-      Navigator.of(context).popAndPushNamed('/qr/detected');
+      Navigator.of(context)
+          .popAndPushNamed('/qr/detected', arguments: _callback);
       // Navigator.of(context).pushNamed('/complaint/create',
       //     arguments: ComplaintCreateScreenArgs(qrUrl: _callback));
       // BlocProvider.of<HomeCubit>(context).onChangeHomeSceenPage(index: 0);

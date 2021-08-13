@@ -7,11 +7,11 @@ abstract class ComplaintCreateEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ComplaintFromQR extends ComplaintCreateEvent {
-  const ComplaintFromQR({required this.qrResult});
+class ComplaintFromModel extends ComplaintCreateEvent {
+  const ComplaintFromModel({required this.vehicleInventory});
 
-  final String qrResult;
+  final VehicleInventory vehicleInventory;
 
   @override
-  List<Object> get props => [qrResult];
+  List<Object> get props => [vehicleInventory];
 }

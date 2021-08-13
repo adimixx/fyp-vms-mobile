@@ -34,7 +34,9 @@ class VehicleInventory extends Equatable {
       nextServiceMileage:
           double.tryParse(json['next_service_mileage'].toString()),
       nextServiceDate: json['next_service_date'],
-      vehicleCatalog: VehicleCatalog.fromJson(json['vehicle_catalog']),
+      vehicleCatalog: (json['vehicle_catalog'] != null)
+          ? VehicleCatalog.fromJson(json['vehicle_catalog'])
+          : null,
       regWithName: json['reg_with_name'],
     );
   }

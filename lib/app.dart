@@ -53,6 +53,7 @@ class _AppViewState extends State<AppView> {
       navigatorKey: _navigatorKey,
       theme: ThemeData(
         brightness: Brightness.light,
+        appBarTheme: AppBarTheme(brightness: Brightness.dark),
         primaryColor: _primary,
         secondaryHeaderColor: _secondary,
         primaryColorDark: _primaryDark,

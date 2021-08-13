@@ -17,7 +17,10 @@ class AppRouter {
       case '/qr':
         return MaterialPageRoute(builder: (_) => ScanQRDisplay());
       case '/qr/detected':
-        return MaterialPageRoute(builder: (_) => QRDetectedDisplay());
+        return MaterialPageRoute(
+          builder: (_) =>
+              QRDetectedDisplay(parameter: routeSettings.arguments as String),
+        );
       case '/complaint/show':
         return MaterialPageRoute(
           builder: (_ctx) => ComplaintShowScreen(

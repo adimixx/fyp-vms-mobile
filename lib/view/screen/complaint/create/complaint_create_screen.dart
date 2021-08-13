@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vms/models/vehicle_inventory.dart';
 import 'package:vms/view/screen/complaint/create/bloc/complaint_create_bloc.dart';
 
 class ComplaintCreateScreenArgs {
   final String? qrUrl;
+  final VehicleInventory? vehicleInventory;
 
-  const ComplaintCreateScreenArgs({this.qrUrl});
+  const ComplaintCreateScreenArgs({this.qrUrl, this.vehicleInventory});
 }
 
 class ComplaintCreateScreen extends StatelessWidget {
-  const ComplaintCreateScreen({Key? key, this.args}) : super(key: key);
+  ComplaintCreateScreen({Key? key, this.args}) : super(key: key);
 
   final ComplaintCreateScreenArgs? args;
 
   @override
   Widget build(BuildContext context) {
+    ComplaintCreateBloc _complaintCreateBloc = ComplaintCreateBloc();
+
+    if (this.args?.vehicleInventory?.props.isNotEmpty ?? false) {
+      _complaintCreateBloc
+        ..add(
+            ComplaintFromModel(vehicleInventory: this.args!.vehicleInventory!));
+    }
+
     return BlocProvider<ComplaintCreateBloc>(
-      create: (_) => ComplaintCreateBloc()
-        ..add(ComplaintFromQR(qrResult: args?.qrUrl ?? '')),
+      create: (_) => _complaintCreateBloc,
       child: _ComplaintCreateScreenUI(),
     );
   }
@@ -30,12 +39,11 @@ class _ComplaintCreateScreenUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _screenSize = MediaQuery.of(context).size;
-    Color _primaryColor = Color.fromARGB(255, 12, 25, 70);
 
     return Scaffold(
       appBar: AppBar(
         title: Text('New Complaint'),
-        backgroundColor: _primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SafeArea(
           child: Container(
