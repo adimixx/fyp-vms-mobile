@@ -11,7 +11,7 @@ class BsTextField extends StatefulWidget {
       this.validator,
       this.onFieldSubmitted,
       this.maxLength,
-      this.maxLines,
+      this.maxLines = 1,
       this.controller,
       this.hasTextObscure = false,
       this.enabled = true});

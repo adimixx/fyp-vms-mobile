@@ -51,7 +51,6 @@ class ComplaintRepository {
   }
 
   Future<bool> postComplaint(Map<String, dynamic> data) async {
-    // TODO: Implement data for POST
     final response =
         await NetworkRepository().postData(apiUrl: '/complaint', data: data);
 

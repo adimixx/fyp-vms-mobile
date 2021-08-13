@@ -20,3 +20,4 @@ https://pub.dev/packages/badges
 https://pub.dev/packages/animations
 https://pub.dev/packages/qr_code_scanner
 https://pub.dev/packages/flutter_spinkit/install
+https://pub.dev/packages/flutter_launcher_icons

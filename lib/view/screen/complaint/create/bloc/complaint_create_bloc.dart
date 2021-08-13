@@ -56,6 +56,7 @@ class ComplaintCreateBloc
           formKey: _formKey,
           isSubmit: false);
     } else if (event is ComplaintSubmitSuccess) {
+      print('submit sukses');
     } else if (event is ComplaintSubmitError) {
       print('Error Mes : ${event.errorMessage}');
     }
@@ -81,7 +82,7 @@ class ComplaintCreateBloc
     if (_formKey.currentState!.validate()) {
       try {
         var _data = {
-          'vehicle_inventory_id': state.vehicleInventory!.id,
+          'vehicle': state.vehicleInventory!.id,
           'title': state.titleController.text,
           'description': state.descriptionController.text
         };

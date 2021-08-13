@@ -108,6 +108,10 @@ class _ComplaintCreateScreenUI extends StatelessWidget {
             SafeArea(
               minimum: EdgeInsets.symmetric(horizontal: 10.0),
               child: _ComplaintForm(),
+            ),
+            BlocListener<ComplaintCreateBloc, ComplaintCreateState>(
+              listener: (context, state) {},
+              child: Container(),
             )
           ],
         ),
