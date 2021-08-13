@@ -50,14 +50,13 @@ class ComplaintRepository {
     return _complaintList;
   }
 
-  Future<bool> postComplaint() async {
+  Future<bool> postComplaint(Map<String, dynamic> data) async {
     // TODO: Implement data for POST
     final response =
-        await NetworkRepository().postData(apiUrl: '/complaint', data: null);
+        await NetworkRepository().postData(apiUrl: '/complaint', data: data);
 
     if (response.statusCode < 200 || response.statusCode > 300) {
       throw Exception('Server Error');
-      return false;
     }
 
     return true;

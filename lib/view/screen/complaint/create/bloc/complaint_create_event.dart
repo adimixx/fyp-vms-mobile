@@ -15,3 +15,13 @@ class ComplaintFromModel extends ComplaintCreateEvent {
   @override
   List<Object> get props => [vehicleInventory];
 }
+
+class ComplaintSubmit extends ComplaintCreateEvent {}
+
+class ComplaintSubmitSuccess extends ComplaintCreateEvent {}
+
+class ComplaintSubmitError extends ComplaintCreateEvent {
+  final String? errorMessage;
+
+  ComplaintSubmitError({this.errorMessage}) : super();
+}

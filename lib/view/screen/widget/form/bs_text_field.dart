@@ -11,6 +11,7 @@ class BsTextField extends StatefulWidget {
       this.validator,
       this.onFieldSubmitted,
       this.maxLength,
+      this.maxLines,
       this.controller,
       this.hasTextObscure = false,
       this.enabled = true});
@@ -24,6 +25,7 @@ class BsTextField extends StatefulWidget {
   final String? labelText;
   final String? helperText;
   final int? maxLength;
+  final int? maxLines;
   final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
@@ -43,7 +45,8 @@ class _BsTextFieldState extends State<BsTextField> {
       controller: widget.controller,
       key: widget.fieldKey,
       obscureText: (widget.hasTextObscure) ? _obscureText : false,
-      maxLength: widget.maxLength ?? null,
+      maxLength: widget.maxLength,
+      maxLines: widget.maxLines,
       onSaved: widget.onSaved,
       validator: widget.validator,
       onFieldSubmitted: widget.onFieldSubmitted,

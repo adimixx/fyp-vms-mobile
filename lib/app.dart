@@ -45,6 +45,7 @@ class _AppViewState extends State<AppView> {
     Color _secondary = Color.fromARGB(255, 108, 117, 125),
         _primary = Color.fromARGB(255, 18, 40, 115),
         _black = Colors.black,
+        _white = Colors.white,
         _primaryDark = Color.fromARGB(255, 8, 18, 50),
         _primaryLight = Color.fromARGB(255, 18, 40, 115);
 
@@ -62,6 +63,12 @@ class _AppViewState extends State<AppView> {
         textTheme: TextTheme(
           headline1: TextStyle(
               fontSize: 22, fontWeight: FontWeight.w700, color: _black),
+          headline2: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.w700, color: _white),
+          headline3: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w700, color: _black),
+          headline6: TextStyle(
+              fontSize: 13, fontWeight: FontWeight.w700, color: _black),
           subtitle1: TextStyle(
               fontWeight: FontWeight.w400, color: _secondary, fontSize: 15),
           subtitle2: TextStyle(
