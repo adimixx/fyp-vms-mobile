@@ -66,6 +66,8 @@ class LoginScreenUI extends StatelessWidget {
                               children: [
                                 Container(
                                   child: BsTextField(
+                                    textInputType: TextInputType.emailAddress,
+                                    autofillHints: [AutofillHints.email],
                                     enabled: !state.loginPending,
                                     borderRadius: 10,
                                     controller: state.emailController,
@@ -79,6 +81,7 @@ class LoginScreenUI extends StatelessWidget {
                                 ),
                                 Container(
                                   child: BsTextField(
+                                    autofillHints: [AutofillHints.password],
                                     enabled: !state.loginPending,
                                     borderRadius: 10,
                                     controller: state.passwordController,

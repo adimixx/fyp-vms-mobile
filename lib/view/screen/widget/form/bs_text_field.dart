@@ -14,7 +14,9 @@ class BsTextField extends StatefulWidget {
       this.maxLines = 1,
       this.controller,
       this.hasTextObscure = false,
-      this.enabled = true});
+      this.enabled = true,
+      this.textInputType,
+      this.autofillHints});
 
   final double borderRadius;
   final bool hasTextObscure;
@@ -30,6 +32,8 @@ class BsTextField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
   final bool? enabled;
+  final TextInputType? textInputType;
+  final Iterable<String>? autofillHints;
 
   @override
   _BsTextFieldState createState() => _BsTextFieldState();
@@ -41,6 +45,8 @@ class _BsTextFieldState extends State<BsTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: widget.textInputType,
+      autofillHints: widget.autofillHints,
       enabled: widget.enabled,
       controller: widget.controller,
       key: widget.fieldKey,
