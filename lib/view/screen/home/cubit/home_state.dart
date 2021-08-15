@@ -18,3 +18,9 @@ class HomeScreenIndexChanged extends HomeState {
   const HomeScreenIndexChanged({required int currentScreenIndex})
       : super(currentScreenIndex: currentScreenIndex);
 }
+
+class HomeScreenDataChanged extends HomeState {
+  const HomeScreenDataChanged({this.message}) : super();
+
+  final String? message;
+}

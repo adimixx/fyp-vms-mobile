@@ -10,4 +10,8 @@ class HomeCubit extends Cubit<HomeState> {
   void onChangeHomeSceenPage({required int index}) {
     emit(HomeScreenIndexChanged(currentScreenIndex: index));
   }
+
+  void onDataChange({String? message}) {
+    emit(HomeScreenDataChanged(message: message));
+  }
 }

@@ -31,7 +31,9 @@ class _QRDetectedDisplayUI extends StatelessWidget {
       if (state is QrError) {
         return _QRErrorUI();
       }
-      return _QRLoadingUI();
+      return LoadingScreen(
+        description: 'QR Code has been detected. Please wait...',
+      );
     }, listener: (context, state) {
       if (state is QrVehicleDetected) {
         Navigator.of(context).popAndPushNamed(
@@ -118,8 +120,13 @@ class _QRErrorUI extends StatelessWidget {
   }
 }
 
-class _QRLoadingUI extends StatelessWidget {
-  const _QRLoadingUI({Key? key}) : super(key: key);
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({
+    this.description,
+    Key? key,
+  }) : super(key: key);
+
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +159,7 @@ class _QRLoadingUI extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  'QR Code has been detected. Please wait...',
+                  '$description',
                   style: Theme.of(context)
                       .textTheme
                       .subtitle1!

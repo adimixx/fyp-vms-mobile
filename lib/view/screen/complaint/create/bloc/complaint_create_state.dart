@@ -1,58 +1,49 @@
 part of 'complaint_create_bloc.dart';
 
-class ComplaintCreateState extends Equatable {
-  const ComplaintCreateState._(
-      {this.vehicleInventory,
-      this.isSubmit = false,
-      required this.titleController,
-      required this.descriptionController,
-      required this.formKey});
-
-  const ComplaintCreateState.init(
-      {required titleController,
-      required descriptionController,
-      required formKey})
-      : this._(
-            titleController: titleController,
-            descriptionController: descriptionController,
-            formKey: formKey);
-
-  const ComplaintCreateState.withVehicleData(
-      {required VehicleInventory vehicleInventory,
-      required titleController,
-      required descriptionController,
-      required formKey})
-      : this._(
-            vehicleInventory: vehicleInventory,
-            titleController: titleController,
-            descriptionController: descriptionController,
-            formKey: formKey);
-
-  const ComplaintCreateState.changeFormState(
-      {required VehicleInventory vehicleInventory,
-      required titleController,
-      required descriptionController,
-      required formKey,
-      required isSubmit})
-      : this._(
-            vehicleInventory: vehicleInventory,
-            titleController: titleController,
-            descriptionController: descriptionController,
-            formKey: formKey,
-            isSubmit: isSubmit);
+abstract class ComplaintCreateState extends Equatable {
+  const ComplaintCreateState({
+    this.vehicleInventory,
+    this.isSubmit = false,
+  });
 
   final VehicleInventory? vehicleInventory;
   final bool isSubmit;
-  final TextEditingController titleController;
-  final TextEditingController descriptionController;
-  final GlobalKey<FormState> formKey;
 
   @override
   List<Object?> get props => [
         vehicleInventory,
         isSubmit,
-        titleController,
-        descriptionController,
-        formKey
       ];
+}
+
+class ComplaintCreateInitState extends ComplaintCreateState {
+  const ComplaintCreateInitState() : super();
+}
+
+class ComplaintWithVehicleDataState extends ComplaintCreateState {
+  const ComplaintWithVehicleDataState(
+      {required VehicleInventory vehicleInventory})
+      : super(vehicleInventory: vehicleInventory);
+}
+
+class ComplaintFormSubmitState extends ComplaintCreateState {
+  const ComplaintFormSubmitState({required VehicleInventory vehicleInventory})
+      : super(vehicleInventory: vehicleInventory, isSubmit: true);
+}
+
+class ComplaintFormSubmitSuccessState extends ComplaintCreateState {
+  const ComplaintFormSubmitSuccessState(
+      {required VehicleInventory vehicleInventory})
+      : super(vehicleInventory: vehicleInventory, isSubmit: false);
+}
+
+class ComplaintFormExceptionState extends ComplaintCreateState {
+  const ComplaintFormExceptionState(
+      {required VehicleInventory vehicleInventory, required this.errorBody})
+      : super(vehicleInventory: vehicleInventory, isSubmit: false);
+
+  final String errorBody;
+
+  @override
+  List<Object?> get props => [vehicleInventory, isSubmit, errorBody];
 }

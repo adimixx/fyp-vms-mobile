@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vms/app.dart';
+import 'package:vms/app/app.dart';
 
 import 'logic/authentication/repository/authentication_repository.dart';
 import 'logic/authentication/repository/user_repository.dart';

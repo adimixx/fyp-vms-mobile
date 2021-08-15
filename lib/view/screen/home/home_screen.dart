@@ -1,15 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vms/logic/authentication/bloc/authentication_bloc.dart';
 import 'package:vms/logic/complaint/repository/complaint_repository.dart';
 import 'package:vms/view/screen/complaint/list/bloc/list_bloc.dart';
-import 'package:vms/view/screen/complaint/list/list_screen.dart';
 import 'package:vms/view/screen/home/cubit/home_cubit.dart';
-import 'package:vms/view/screen/home/dashboard_widget.dart';
 import 'package:vms/view/screen/home/home_screen_display.dart';
-import 'package:vms/view/screen/scan_qr/scan_qr_display.dart';
 import 'package:vms/view/screen/widget/asset/drawer_default.dart';
 
 class _HomeScreenUI extends StatefulWidget {

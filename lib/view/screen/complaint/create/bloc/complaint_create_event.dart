@@ -16,7 +16,12 @@ class ComplaintFromModel extends ComplaintCreateEvent {
   List<Object> get props => [vehicleInventory];
 }
 
-class ComplaintSubmit extends ComplaintCreateEvent {}
+class ComplaintSubmit extends ComplaintCreateEvent {
+  const ComplaintSubmit({required this.title, required this.description});
+
+  final String title;
+  final String description;
+}
 
 class ComplaintSubmitSuccess extends ComplaintCreateEvent {}
 

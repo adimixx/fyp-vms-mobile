@@ -11,21 +11,8 @@ part 'complaint_create_state.dart';
 
 class ComplaintCreateBloc
     extends Bloc<ComplaintCreateEvent, ComplaintCreateState> {
-  ComplaintCreateBloc(
-      {required TextEditingController titleController,
-      required TextEditingController descriptionController,
-      required GlobalKey<FormState> formKey})
-      : _titleController = titleController,
-        _descriptionController = descriptionController,
-        _formKey = formKey,
-        super(ComplaintCreateState.init(
-            titleController: titleController,
-            descriptionController: descriptionController,
-            formKey: formKey));
+  ComplaintCreateBloc() : super(ComplaintCreateInitState());
 
-  late TextEditingController _titleController;
-  final TextEditingController _descriptionController;
-  final GlobalKey<FormState> _formKey;
   late VehicleInventory _vehicleInventory;
 
   @override
@@ -34,31 +21,19 @@ class ComplaintCreateBloc
   ) async* {
     if (event is ComplaintFromModel) {
       _vehicleInventory = event.vehicleInventory;
-      yield ComplaintCreateState.withVehicleData(
-          vehicleInventory: _vehicleInventory,
-          titleController: _titleController,
-          descriptionController: _descriptionController,
-          formKey: _formKey);
+      yield ComplaintWithVehicleDataState(vehicleInventory: _vehicleInventory);
     } else if (event is ComplaintSubmit) {
-      yield ComplaintCreateState.changeFormState(
-          vehicleInventory: _vehicleInventory,
-          titleController: _titleController,
-          descriptionController: _descriptionController,
-          formKey: _formKey,
-          isSubmit: true);
+      yield ComplaintFormSubmitState(vehicleInventory: _vehicleInventory);
 
-      await _mapComplaintSubmitEvent();
-
-      yield ComplaintCreateState.changeFormState(
-          vehicleInventory: _vehicleInventory,
-          titleController: _titleController,
-          descriptionController: _descriptionController,
-          formKey: _formKey,
-          isSubmit: false);
+      await _mapComplaintSubmitEvent(event);
     } else if (event is ComplaintSubmitSuccess) {
-      print('submit sukses');
+      yield ComplaintFormSubmitSuccessState(
+          vehicleInventory: _vehicleInventory);
     } else if (event is ComplaintSubmitError) {
       print('Error Mes : ${event.errorMessage}');
+      yield ComplaintFormExceptionState(
+          vehicleInventory: _vehicleInventory,
+          errorBody: event.errorMessage ?? 'Error');
     }
   }
 
@@ -78,20 +53,18 @@ class ComplaintCreateBloc
     return null;
   }
 
-  Future<void> _mapComplaintSubmitEvent() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        var _data = {
-          'vehicle': state.vehicleInventory!.id,
-          'title': state.titleController.text,
-          'description': state.descriptionController.text
-        };
+  Future<void> _mapComplaintSubmitEvent(ComplaintSubmit event) async {
+    try {
+      var _data = {
+        'vehicle': state.vehicleInventory!.id,
+        'title': event.title,
+        'description': event.description,
+      };
 
-        await ComplaintRepository().postComplaint(_data);
-        add(ComplaintSubmitSuccess());
-      } catch (e) {
-        add(ComplaintSubmitError(errorMessage: e.toString()));
-      }
+      await ComplaintRepository().postComplaint(_data);
+      add(ComplaintSubmitSuccess());
+    } catch (e) {
+      add(ComplaintSubmitError(errorMessage: e.toString()));
     }
   }
 }
