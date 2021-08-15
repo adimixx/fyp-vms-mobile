@@ -3,7 +3,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkRepository {
-  final String _url = 'https://vms.psm.adimixx.com/api';
+  final String domain = 'https://vms.psm.adimixx.com/';
+  late final String _url;
+
+  NetworkRepository() {
+    this._url = domain + 'api';
+  }
   //if you are using android studio emulator, change localhost to 10.0.2.2
   var token;
 
